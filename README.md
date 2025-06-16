@@ -31,8 +31,8 @@ This is the frontend of a **Mini Blogging Platform** built using **React**, **Ty
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/mini-blog-frontend.git
-cd mini-blog-frontend
+git clone https://github.com/Damu8185/blogify-ui.git
+cd blogify-ui
 ```
 
 ### 2. Install Dependencies
@@ -75,7 +75,7 @@ Uses React Testing Library and Jest.
 
 | Script      | Description                      |
 | ----------- | -------------------------------- |
-| `npm start` | Runs the app in development mode |
+| `npm run dev` | Runs the app in development mode |
 | `npm build` | Builds the app for production    |
 | `npm test`  | Runs the test suite              |
 
