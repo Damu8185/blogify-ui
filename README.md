@@ -41,22 +41,30 @@ cd blogify-ui
 npm install
 ```
 
+3. **Setup environment variables**
+
+Create a `.env` file in the root:
+
+```env
+API_BASE_URL=http:localhost:4000/api
+```
+
 ### 3. Start the Development Server
 
 ```bash
 npm run dev
 ```
 
-Visit `http://localhost:3000/home` in your browser.
+Visit `http://localhost:3000` in your browser.
 
 ---
 
 ## 🌐 API Configuration
 
-Ensure your backend server is running and update the Axios base URL accordingly in your API service file (e.g., `src/services/api.ts`):
+Ensure your backend server is running and update the API base URL accordingly in your API service file
 
 ```ts
-axios.defaults.baseURL = "http://localhost:5000/api";
+API_BASE_URL = "http://localhost:4000/api";
 ```
 
 ---
