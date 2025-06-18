@@ -31,8 +31,8 @@ This is the frontend of a **Mini Blogging Platform** built using **React**, **Ty
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/mini-blog-frontend.git
-cd mini-blog-frontend
+git clone https://github.com/Damu8185/blogify-ui.git
+cd blogify-ui
 ```
 
 ### 2. Install Dependencies
@@ -41,22 +41,30 @@ cd mini-blog-frontend
 npm install
 ```
 
+3. **Setup environment variables**
+
+Create a `.env` file in the root:
+
+```env
+API_BASE_URL=http:localhost:4000/api
+```
+
 ### 3. Start the Development Server
 
 ```bash
 npm run dev
 ```
 
-Visit `http://localhost:3000/home` in your browser.
+Visit `http://localhost:3000` in your browser.
 
 ---
 
 ## 🌐 API Configuration
 
-Ensure your backend server is running and update the Axios base URL accordingly in your API service file (e.g., `src/services/api.ts`):
+Ensure your backend server is running and update the API base URL accordingly in your API service file
 
 ```ts
-axios.defaults.baseURL = "http://localhost:5000/api";
+API_BASE_URL = "http://localhost:4000/api";
 ```
 
 ---
@@ -75,7 +83,7 @@ Uses React Testing Library and Jest.
 
 | Script      | Description                      |
 | ----------- | -------------------------------- |
-| `npm start` | Runs the app in development mode |
+| `npm run dev` | Runs the app in development mode |
 | `npm build` | Builds the app for production    |
 | `npm test`  | Runs the test suite              |
 
