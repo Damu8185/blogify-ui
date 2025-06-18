@@ -1,17 +1,20 @@
 import { useContext, useEffect, useState } from "react";
 import { Avatar, Box, Container, Tab, Tabs, Typography } from "@mui/material";
-import { BASE_URL, getToken, removeToken } from "../utils/auth";
+import { BASE_URL, getToken, getUser, removeToken } from "../utils/auth";
 import { PostCards } from "../components/PostCards";
 import { SkeletonCard } from "../components/Skeleton";
 import { AuthContext } from "../context/AuthContext";
 import { ProfileSkeleton } from "../components/ProfileSkleton";
 import { profileName } from "../utils/helper";
+import { profile } from "../services/authService";
+import { getUserPosts } from "../services/postService";
+import { useParams } from "react-router-dom";
 
 interface Iuser {
   first_name: string;
   last_name: string;
   email_id: string;
-  created_date: string;
+  created_at: string;
 }
 
 export const Profile = () => {
@@ -22,32 +25,26 @@ export const Profile = () => {
     first_name: "",
     last_name: "",
     email_id: "",
-    created_date: "",
+    created_at: "",
   });
   const [posts, setPosts] = useState<any[]>([]);
   const [reloadPosts, setReloadPosts] = useState(true);
   const [loadingPosts, setLoadingPosts] = useState(false);
   const [userLoader, setUserLoader] = useState(true);
+  const { user_id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
       setUserLoader(true);
       try {
-        const headers = {
-          Authorization: `Bearer ${getToken()}`,
-        };
-
-        const [userRes] = await Promise.all([
-          fetch(`${BASE_URL}/user`, { headers }),
-        ]);
-        const userData = await userRes.json();
-        if (!userRes.ok && userRes.status === 401) {
+        const response = await profile();
+        if (!response.ok && response.status === 401) {
           removeToken();
           setErrorToast("Session expired");
         }
         setTimeout(() => {
           setUserLoader(false);
-          setUser(userData);
+          setUser(response);
         }, 1000);
       } catch (error) {
         setUserLoader(false);
@@ -60,24 +57,17 @@ export const Profile = () => {
   }, [setErrorToast]);
 
   useEffect(() => {
-    const fetchPostData = async () => {
+    const fetchUserPostData = async () => {
       setLoadingPosts(true);
       try {
-        const headers = {
-          Authorization: `Bearer ${getToken()}`,
-        };
+        const response = await getUserPosts(user_id);
 
-        const [postsRes] = await Promise.all([
-          fetch(`${BASE_URL}/user-posts`, { headers }),
-        ]);
-
-        const postsData = await postsRes.json();
-        if (!postsRes.ok && postsRes.status === 401) {
+        if (!response.ok && response.status === 401) {
           removeToken();
           setErrorToast("Session expired");
         }
         setTimeout(() => {
-          setPosts(postsData);
+          setPosts(response);
           setReloadPosts(false);
           setLoadingPosts(false);
         }, 1000);
@@ -88,7 +78,7 @@ export const Profile = () => {
       }
     };
     if (reloadPosts) {
-      fetchPostData();
+      fetchUserPostData();
     }
   }, [reloadPosts, setErrorToast]);
 
@@ -123,7 +113,7 @@ export const Profile = () => {
             </Typography>
             <Typography color="text.secondary">{user?.email_id}</Typography>
             <Typography color="text.secondary" sx={{ mb: 3 }}>
-              Joined on {new Date(user?.created_date).toLocaleDateString()}
+              Joined on {new Date(user?.created_at).toLocaleDateString()}
             </Typography>
           </Box>
         </>
@@ -150,7 +140,7 @@ export const Profile = () => {
               <InfoRow label="Email" value={user?.email_id} />
               <InfoRow
                 label="Join Date"
-                value={new Date(user?.created_date).toLocaleDateString()}
+                value={new Date(user?.created_at).toLocaleDateString()}
               />
             </Box>
           )}

@@ -19,17 +19,19 @@ import {
 import { useNavigate } from "react-router-dom";
 import { BASE_URL, setToken, setUser } from "../utils/auth";
 import { AuthContext } from "../context/AuthContext";
+import { login } from "../services/authService";
+import { signInFormData } from "../types/auth";
 
-interface FormData {
-  email_id: string;
-  password: string;
-}
+// interface FormData {
+//   email_id: string;
+//   password: string;
+// }
 
 export const SignIn = () => {
   const { setSucessToast, setErrorToast, setUserId } = useContext(AuthContext);
   const navigate = useNavigate();
   const [form, setForm] = useState({ email_id: "", password: "" });
-  const [errors, setErrors] = useState<Partial<FormData>>({});
+  const [errors, setErrors] = useState<Partial<signInFormData>>({});
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -43,7 +45,7 @@ export const SignIn = () => {
   };
 
   const validate = () => {
-    const newErrors: Partial<FormData> = {};
+    const newErrors: Partial<signInFormData> = {};
     if (!form.email_id.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/))
       newErrors.email_id = "Invalid email format";
     if (form.password.length < 10)
@@ -60,21 +62,12 @@ export const SignIn = () => {
     }
 
     try {
-      const res = await fetch(`${BASE_URL}/sign-in`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      const response = await res.json();
-
-      if (!res.ok) {
-        setServerError(response.message || "Login failed");
-      } else {
-        setToken(response.token);
-        setUserId(response.user_id);
-        setUser(response.user_id);
+      const success = await login(form);
+      if (success) {
         setSucessToast("Login successfully");
         navigate("/home");
+      } else {
+        setServerError("Login failed");
       }
     } catch (err: any) {
       console.error("err", err);
@@ -90,8 +83,8 @@ export const SignIn = () => {
         justifyContent: "center",
       }}
     >
-      <Card sx={{ p: 3, borderRadius: 3, boxShadow: 4, width: 360 }}>
-        <CardContent>
+      <Card sx={{ p: 3, borderRadius: 3, boxShadow: 4, width: 400 }}>
+        <CardContent sx={{ padding: "0 !important" }}>
           <Box textAlign="center" mb={2}>
             <Box
               sx={{
@@ -108,10 +101,10 @@ export const SignIn = () => {
             >
               <LoginIcon sx={{ color: "#fff", fontSize: 30 }} />
             </Box>
-            <Typography variant="h5" mt={2}>
+            <Typography variant="h5" mt={2} sx={{ color: "#272538" }}>
               Welcome Back
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="#272538">
               Login to your account
             </Typography>
           </Box>

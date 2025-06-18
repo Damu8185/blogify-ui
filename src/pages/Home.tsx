@@ -7,6 +7,7 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { SkeletonCard } from "../components/Skeleton";
 import { AuthContext } from "../context/AuthContext";
 import { redirect } from "react-router-dom";
+import { getAllPosts } from "../services/postService";
 
 export const Home = () => {
   const { setErrorToast } = useContext(AuthContext);
@@ -20,11 +21,7 @@ export const Home = () => {
       try {
         if (reloadPosts) {
           setLoading(true);
-          const response = await fetch(`${BASE_URL}/posts`, {
-            method: "GET",
-            headers: { Authorization: `Bearer ${getToken()}` },
-          });
-          const posts = await response.json();
+          const response = await getAllPosts();
           if (!response.ok && response.status === 401) {
             removeToken();
             setErrorToast("Session expired");
@@ -33,7 +30,7 @@ export const Home = () => {
             }, 2000);
           }
           setTimeout(() => {
-            setPosts(posts);
+            setPosts(response);
             setReloadPosts(false);
             setLoading(false);
           }, 1000);
@@ -54,12 +51,16 @@ export const Home = () => {
         setReloadPosts={setReloadPosts}
       />
       <Grid container spacing={2}>
-        <Grid size={{ xs: 6, md: 8 }}>
-          <Typography variant="h4" gutterBottom>
+        {/* <Grid size={{ xs: 6, md: 8 }}>
+          <Typography
+            variant="h4"
+            // gutterBottom
+            sx={{ fontSize: { xs: "12px", md: "20px" } }}
+          >
             Latest Posts
           </Typography>
-        </Grid>
-        <Grid size={{ xs: 6, md: 4 }} textAlign={"end"}>
+        </Grid> */}
+        <Grid size={{ xs: 12, md: 12 }} textAlign={"end"} marginBottom={"2%"}>
           <Button
             sx={{
               justifyContent: "flex-end",

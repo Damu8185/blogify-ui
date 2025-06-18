@@ -22,24 +22,26 @@ import {
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { BASE_URL } from "../utils/auth";
+import { signUp } from "../services/authService";
+import { signUpFormData } from "../types/auth";
 
-interface FormData {
-  first_name: string;
-  last_name: string;
-  email_id: string;
-  password: string;
-}
+// interface FormData {
+//   first_name: string;
+//   last_name: string;
+//   email_id: string;
+//   password: string;
+// }
 
 export const SignUp = () => {
   const { setSucessToast, setErrorToast } = useContext(AuthContext);
-  const [form, setForm] = useState<FormData>({
+  const [form, setForm] = useState<signUpFormData>({
     first_name: "",
     last_name: "",
     email_id: "",
     password: "",
   });
 
-  const [errors, setErrors] = useState<Partial<FormData>>({});
+  const [errors, setErrors] = useState<Partial<signUpFormData>>({});
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -53,7 +55,7 @@ export const SignUp = () => {
   };
 
   const validate = () => {
-    const newErrors: Partial<FormData> = {};
+    const newErrors: Partial<signUpFormData> = {};
     if (!form.first_name.trim())
       newErrors.first_name = "First name is required";
     if (!form.last_name.trim()) newErrors.last_name = "Last name is required";
@@ -76,19 +78,13 @@ export const SignUp = () => {
     try {
       setLoading(true);
       setServerError(null);
-      const res = await fetch(`${BASE_URL}/sign-up`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
+      const response = await signUp(form);
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        setServerError(data.message || "Signup failed");
-      } else {
+      if (response) {
         setSucessToast("Account created. Please sign-in");
         navigate("/sign-in");
+      } else {
+        setServerError("Signup failed");
       }
     } catch (err: any) {
       setErrorToast("Something went wrong. Please try again.");
@@ -106,7 +102,7 @@ export const SignUp = () => {
       }}
     >
       <Card sx={{ p: 3, borderRadius: 3, boxShadow: 4, width: 400 }}>
-        <CardContent>
+        <CardContent sx={{ padding: "0 !important" }}>
           <Box textAlign="center" mb={2}>
             <Box
               sx={{
@@ -118,6 +114,8 @@ export const SignUp = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 mx: "auto",
+                background:
+                  "linear-gradient(-45deg, #36096D 0%, #37D5D6 100% )",
               }}
             >
               <Person sx={{ color: "#fff", fontSize: 30 }} />
@@ -240,7 +238,13 @@ export const SignUp = () => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, py: 1.5, borderRadius: 2 }}
+              sx={{
+                mt: 3,
+                py: 1.5,
+                borderRadius: 2,
+                background:
+                  "linear-gradient(-45deg, #36096D 0%, #37D5D6 100% )",
+              }}
               disabled={loading}
             >
               {loading ? (

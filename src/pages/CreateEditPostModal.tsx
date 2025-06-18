@@ -28,8 +28,13 @@ export const CreateEditPostModal = ({
   setPostData,
 }: modalTypes) => {
   const { setSucessToast, setErrorToast } = useContext(AuthContext);
-  const [form, setForm] = useState({ post_id: "", description: "" });
-  const [errors, setErrors] = useState({ description: "" });
+  const [form, setForm] = useState({
+    _id: "",
+    description: "",
+    post_title: "",
+  });
+  const [errors, setErrors] = useState({ description: "", post_title: "" });
+  console.log("postData", postData);
 
   useEffect(() => {
     if (postData && isEdit) {
@@ -38,7 +43,7 @@ export const CreateEditPostModal = ({
   }, [isEdit, postData]);
 
   const handleClose = () => {
-    setForm({ post_id: "", description: "" });
+    setForm({ _id: "", description: "", post_title: "" });
     setShowPostDialog(!show);
     setPostData?.(initialStatePost);
   };
@@ -50,10 +55,14 @@ export const CreateEditPostModal = ({
 
   const validate = () => {
     let valid = true;
-    const newErrors = { description: "" };
+    const newErrors = { description: "", post_title: "" };
 
     if (!form.description.trim()) {
       newErrors.description = "Description is required";
+      valid = false;
+    }
+    if (!form.post_title.trim()) {
+      newErrors.post_title = "Title is required";
       valid = false;
     }
 
@@ -66,7 +75,11 @@ export const CreateEditPostModal = ({
 
     if (isEdit) {
       try {
-        const response = await updatePost(form.post_id, form.description);
+        const response = await updatePost(
+          form._id,
+          form.description,
+          form.post_title
+        );
         const updatedPost = await response.json();
         if (!response.ok && response.status === 401) {
           removeToken();
@@ -85,7 +98,7 @@ export const CreateEditPostModal = ({
       }
     } else {
       try {
-        const response = await createPost(form.description);
+        const response = await createPost(form.post_title, form.description);
         const createdPost = await response.json();
         if (!response.ok && response.status === 401) {
           removeToken();
@@ -108,7 +121,7 @@ export const CreateEditPostModal = ({
   return (
     <>
       <Dialog fullWidth maxWidth="lg" onClose={handleClose} open={show}>
-        <DialogTitle>{isEdit ? "Edit Post" : "Create a new post"}</DialogTitle>
+        <DialogTitle>{isEdit ? "Edit Post" : "Create new post"}</DialogTitle>
         <IconButton
           aria-label="close"
           onClick={handleClose}
@@ -124,9 +137,19 @@ export const CreateEditPostModal = ({
         <DialogContent dividers>
           <TextField
             fullWidth
+            label="Title"
+            name="post_title"
+            value={form.post_title}
+            onChange={handleChange}
+            error={!!errors.post_title}
+            helperText={errors.post_title}
+            margin="normal"
+          />
+          <TextField
+            fullWidth
             multiline
             rows={4}
-            label="Description"
+            placeholder="Share your thoughts..."
             name="description"
             value={form.description}
             onChange={handleChange}
@@ -136,7 +159,15 @@ export const CreateEditPostModal = ({
           />
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleSubmit}>
+          <Button
+            sx={{
+              justifyContent: "flex-end",
+              color: "#ffffff",
+              background: "linear-gradient(-45deg, #36096D 0%, #37D5D6 100% )",
+            }}
+            variant="contained"
+            onClick={handleSubmit}
+          >
             {isEdit ? "Save Changes" : "Publish Post"}
           </Button>
         </DialogActions>

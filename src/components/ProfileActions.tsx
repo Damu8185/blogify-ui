@@ -7,12 +7,13 @@ import IconButton from "@mui/material/IconButton";
 import Logout from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
-import { removeToken } from "../utils/auth";
+import { getUser, removeToken } from "../utils/auth";
 
 export const ProfileActions = () => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const userId = getUser();
 
   const handleLogout = () => {
     removeToken();
@@ -66,7 +67,7 @@ export const ProfileActions = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={() => navigate("/profile")}>
+        <MenuItem onClick={() => navigate(`/home/profile/${userId}`)}>
           <Avatar /> Profile
         </MenuItem>
         <MenuItem onClick={handleLogout}>

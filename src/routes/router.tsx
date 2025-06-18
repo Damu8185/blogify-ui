@@ -6,25 +6,14 @@ import { Profile } from "../pages/Profile";
 import { UserList } from "../pages/UserList";
 import { getToken } from "../utils/auth";
 import { LandingOrFeed } from "../pages/LandingPage";
+import { PostDetails } from "../pages/PostDetails";
+import { AuthLayout } from "../components/AuthLayout";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <AuthLayout />,
     children: [
-      {
-        path: "home",
-        index: true,
-        element: <LandingOrFeed />,
-        loader: () => {
-          const token = getToken();
-          if (!token) {
-            // Redirect to home
-            return redirect("/sign-in");
-          }
-          return null;
-        },
-      },
       {
         path: "sign-in",
         element: <SignIn />,
@@ -49,8 +38,26 @@ const router = createBrowserRouter([
           return null;
         },
       },
+    ],
+  },
+  {
+    path: "/home",
+    element: <App />,
+    children: [
       {
-        path: "profile",
+        index: true,
+        element: <LandingOrFeed />,
+        // loader: () => {
+        //   const token = getToken();
+        //   if (!token) {
+        //     // Redirect to home
+        //     return redirect("/sign-in");
+        //   }
+        //   return null;
+        // },
+      },
+      {
+        path: "profile/:user_id",
         element: <Profile />,
         loader: () => {
           const token = getToken();
@@ -64,6 +71,18 @@ const router = createBrowserRouter([
       {
         path: "user-list",
         element: <UserList />,
+        loader: () => {
+          const token = getToken();
+          if (!token) {
+            // Redirect to home
+            return redirect("/sign-in");
+          }
+          return null;
+        },
+      },
+      {
+        path: "post/:post_id",
+        element: <PostDetails />,
         loader: () => {
           const token = getToken();
           if (!token) {

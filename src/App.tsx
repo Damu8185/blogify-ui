@@ -18,7 +18,7 @@ export const App = () => {
       <AppNavbar />
 
       {/* Main content area */}
-      <Container maxWidth="lg">
+      <Container maxWidth="md">
         <ToastContextProvider>
           <Box sx={{ mt: 4 }}>
             <Outlet />

@@ -28,7 +28,7 @@ export const requireAuth = (): string => {
   return token;
 };
 
-export const createPost = (description: string) => {
+export const createPost = (title: string, description: string) => {
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${getToken()}`,
@@ -36,11 +36,15 @@ export const createPost = (description: string) => {
   return fetch(`${BASE_URL}/create-post`, {
     method: "POST",
     headers,
-    body: JSON.stringify({ description }),
+    body: JSON.stringify({ post_title: title, description }),
   });
 };
 
-export const updatePost = (postId: string, description: string) => {
+export const updatePost = (
+  postId: string,
+  description: string,
+  title: string
+) => {
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${getToken()}`,
@@ -48,7 +52,7 @@ export const updatePost = (postId: string, description: string) => {
   return fetch(`${BASE_URL}/update-post/${postId}`, {
     method: "PATCH",
     headers,
-    body: JSON.stringify({ description }),
+    body: JSON.stringify({ description, post_title: title }),
   });
 };
 

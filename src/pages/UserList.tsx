@@ -12,9 +12,10 @@ import {
   Avatar,
   Stack,
 } from "@mui/material";
-import { BASE_URL, getToken, removeToken } from "../utils/auth";
+import { removeToken } from "../utils/auth";
 import { AuthContext } from "../context/AuthContext";
 import { profileName } from "../utils/helper";
+import { getAllUsers } from "../services/authService";
 
 type users = {
   first_name: string;
@@ -29,15 +30,12 @@ export const UserList = () => {
   useEffect(() => {
     const fetchUsersData = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/users`, {
-          headers: { Authorization: `Bearer ${getToken()}` },
-        });
-        const users = await response.json();
+        const response = await getAllUsers();
         if (!response.ok && response.status === 401) {
           removeToken();
           setErrorToast("Session expired");
         }
-        setUsers(users);
+        setUsers(response);
       } catch (error) {
         setErrorToast("Something went wrong. Please try again.");
       }

@@ -37,7 +37,7 @@ export const PostsMenu = ({
 
   const handleDelete = async () => {
     try {
-      const response = await deletePost(postData.post_id);
+      const response = await deletePost(postData._id);
 
       if (response.ok) {
         setSucessToast("Post deleted successfully");
