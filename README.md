@@ -55,7 +55,7 @@ API_BASE_URL=http:localhost:4000/api
 npm run dev
 ```
 
-Visit `http://localhost:3000` in your browser.
+Visit `http://localhost:3000/home` in your browser.
 
 ---
 
@@ -69,23 +69,12 @@ API_BASE_URL = "http://localhost:4000/api";
 
 ---
 
-## 🧪 Testing
-
-```bash
-npm test
-```
-
-Uses React Testing Library and Jest.
-
----
-
 ## 📄 Available Scripts
 
-| Script      | Description                      |
-| ----------- | -------------------------------- |
+| Script        | Description                      |
+| ------------- | -------------------------------- |
 | `npm run dev` | Runs the app in development mode |
-| `npm build` | Builds the app for production    |
-| `npm test`  | Runs the test suite              |
+| `npm build`   | Builds the app for production    |
 
 ---
 

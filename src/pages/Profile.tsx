@@ -28,7 +28,7 @@ export const Profile = () => {
     created_at: "",
   });
   const [posts, setPosts] = useState<any[]>([]);
-  const [reloadPosts, setReloadPosts] = useState(true);
+  const [reloadPosts, setReloadPosts] = useState(false);
   const [loadingPosts, setLoadingPosts] = useState(false);
   const [userLoader, setUserLoader] = useState(true);
   const { user_id } = useParams();
@@ -37,7 +37,7 @@ export const Profile = () => {
     const fetchData = async () => {
       setUserLoader(true);
       try {
-        const response = await profile();
+        const response = await profile(user_id);
         if (!response.ok && response.status === 401) {
           removeToken();
           setErrorToast("Session expired");
@@ -54,7 +54,7 @@ export const Profile = () => {
     };
 
     fetchData();
-  }, [setErrorToast]);
+  }, [setErrorToast, user_id]);
 
   useEffect(() => {
     const fetchUserPostData = async () => {
@@ -77,10 +77,8 @@ export const Profile = () => {
         setErrorToast("Something went wrong. Please try again.");
       }
     };
-    if (reloadPosts) {
-      fetchUserPostData();
-    }
-  }, [reloadPosts, setErrorToast]);
+    fetchUserPostData();
+  }, [reloadPosts, setErrorToast, user_id]);
 
   return (
     <Container maxWidth="sm">
@@ -112,9 +110,6 @@ export const Profile = () => {
               {user?.first_name + " " + user.last_name}
             </Typography>
             <Typography color="text.secondary">{user?.email_id}</Typography>
-            <Typography color="text.secondary" sx={{ mb: 3 }}>
-              Joined on {new Date(user?.created_at).toLocaleDateString()}
-            </Typography>
           </Box>
         </>
       )}

@@ -29,11 +29,9 @@ export const Home = () => {
               redirect("/sign-in");
             }, 2000);
           }
-          setTimeout(() => {
-            setPosts(response);
-            setReloadPosts(false);
-            setLoading(false);
-          }, 1000);
+          setPosts(response);
+          setReloadPosts(false);
+          setLoading(false);
         }
       } catch (error) {
         console.error("error", error);
@@ -60,7 +58,11 @@ export const Home = () => {
             Latest Posts
           </Typography>
         </Grid> */}
-        <Grid size={{ xs: 12, md: 12 }} textAlign={"end"} marginBottom={"2%"}>
+        <Grid
+          size={{ xs: 12, md: 12 }}
+          textAlign={"end"}
+          sx={{ marginBottom: { xs: "5%", sm: "2%", md: "2%" } }}
+        >
           <Button
             sx={{
               justifyContent: "flex-end",

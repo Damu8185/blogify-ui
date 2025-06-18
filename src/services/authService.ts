@@ -32,9 +32,9 @@ export const login = async (form: signInFormData) => {
   }
 };
 
-export const profile = async () => {
+export const profile = async (userId) => {
   try {
-    const response = await fetchData(PROFILE, "GET");
+    const response = await fetchData(PROFILE(userId), "GET");
     const userData = await response.json();
     if (response.ok) {
       return userData;

@@ -51,12 +51,14 @@ export const AppNavbar = () => {
           </Box>
         ) : (
           <>
-            <Button color="inherit" onClick={() => navigate("/sign-in")}>
-              Login
-            </Button>
-            <Button color="inherit" onClick={() => navigate("/sign-up")}>
-              Register
-            </Button>
+            <Box display={"flex"}>
+              <Button color="inherit" onClick={() => navigate("/sign-in")}>
+                Login
+              </Button>
+              <Button color="inherit" onClick={() => navigate("/sign-up")}>
+                Register
+              </Button>
+            </Box>
           </>
         )}
       </Toolbar>

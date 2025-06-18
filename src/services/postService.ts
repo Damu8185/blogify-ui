@@ -1,10 +1,5 @@
 import { fetchData } from "../api";
-import {
-  GET_ALL_POSTS,
-  GET_USER_POSTS,
-  getPostById,
-  getUserPostsById,
-} from "../api/posts";
+import { GET_ALL_POSTS, getPostById, getUserPostsById } from "../api/posts";
 
 export const fetchPostById = async (post_id: number) => {
   try {

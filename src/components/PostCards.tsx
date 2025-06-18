@@ -5,13 +5,19 @@ import {
   CardHeader,
   Avatar,
   Grid,
+  Tooltip,
 } from "@mui/material";
 import { PostsMenu } from "./PostActions";
 import { useContext, useState } from "react";
 import { CreateEditPostModal } from "../pages/CreateEditPostModal";
 import { AuthContext } from "../context/AuthContext";
 import { profileName } from "../utils/helper";
-import { redirect, Link as RouterLink, useNavigate } from "react-router-dom";
+import {
+  redirect,
+  Link as RouterLink,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { getUser } from "../utils/auth";
 
 export interface PostData {
@@ -50,6 +56,8 @@ export const PostCards = ({ posts, setReloadPosts }: postMenuProps) => {
   const [showEditPostDialog, setShowEditPostDialog] = useState(false);
   const [selectedPost, setSelectedPost] = useState<PostData>(initialStatePost);
   const userId = getUser();
+  const { user_id } = useParams();
+  console.log("posts", posts);
 
   return (
     <>
@@ -61,15 +69,15 @@ export const PostCards = ({ posts, setReloadPosts }: postMenuProps) => {
         postData={selectedPost}
         setPostData={setSelectedPost}
       />
-      <div className="row">
+      <Grid container spacing={2} alignItems="stretch">
         {posts && posts.length > 0 ? (
           posts.map((post: PostData) => (
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <Grid size={user_id ? { xs: 12, md: 12 } : { xs: 12, md: 6 }}>
               <Card
                 variant="outlined"
                 style={{ marginBottom: "1rem" }}
                 key={post._id}
-                sx={{ borderRadius: 3, boxShadow: 4 }}
+                sx={{ borderRadius: 3, boxShadow: 4, flexGrow: 1 }}
               >
                 <CardHeader
                   avatar={
@@ -101,7 +109,9 @@ export const PostCards = ({ posts, setReloadPosts }: postMenuProps) => {
                     <Typography
                       sx={{ cursor: "pointer" }}
                       component={"p"}
-                      onClick={() => navigate(`/home/profile/${userId}`)}
+                      onClick={() =>
+                        navigate(`/home/profile/${post.user_info._id}`)
+                      }
                     >
                       {post.user_info.first_name +
                         " " +
@@ -111,24 +121,64 @@ export const PostCards = ({ posts, setReloadPosts }: postMenuProps) => {
                   subheader={new Date(post.created_at).toDateString()}
                 />
                 <CardContent sx={{ paddingTop: "0" }}>
+                  {/* <Tooltip title={post.post_title}> */}
                   <Typography
                     component={"p"}
                     variant="h6"
                     onClick={() => navigate(`/home/post/${post._id}`)}
+                    sx={{
+                      cursor: "pointer",
+                      overflow: "hidden",
+                      display: "-webkit-box",
+                      WebkitLineClamp: 1,
+                      WebkitBoxOrient: "vertical",
+                      // textOverflow: "ellipsis",
+                    }}
                   >
                     {post.post_title}
                   </Typography>
-                  <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
-                    {post.description}
+                  {/* </Tooltip> */}
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      whiteSpace: "pre-wrap",
+                      overflow: "hidden",
+                      display: "-webkit-box",
+                      // WebkitLineClamp: 2,
+                      // WebkitBoxOrient: "vertical",
+                      // textOverflow: "ellipsis",
+                    }}
+                  >
+                    {post.description
+                      ? post.description.length > 150
+                        ? post.description.slice(0, 150) + "..."
+                        : post.description
+                      : ""}
+                    {post.description.length > 150 && (
+                      <Typography
+                        component="span"
+                        onClick={() => navigate(`/home/post/${post._id}`)}
+                        sx={{
+                          color: "primary.main",
+                          cursor: "pointer",
+                          fontWeight: "bold",
+                          ml: 1,
+                        }}
+                      >
+                        {post.description.length > 150 && "Show more"}
+                      </Typography>
+                    )}
                   </Typography>
                 </CardContent>
               </Card>
-            </div>
+              {/* </div> */}
+            </Grid>
           ))
         ) : (
           <>You haven’t written any posts yet. Start sharing your thoughts!</>
         )}
-      </div>
+      </Grid>
+      {/* </div> */}
     </>
   );
 };

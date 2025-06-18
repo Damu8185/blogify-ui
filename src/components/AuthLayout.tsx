@@ -10,17 +10,21 @@ export const AuthLayout = () => {
     //     <Outlet />
     //   </Box>
     // </Container>
-    <Container sx={{ height: "100vh", display: "flex" }}>
+    <Container sx={{ height: "100vh", alignItems: "center" }}>
       <Grid
-        container
+        // container
         // spacing={4}
         // sx={{ spacing: { xs: 2, md: 4 } }}
         alignItems="center"
         justifyContent="center"
-        width={"100%"}
+        // width={"100%"}
+        container
+        spacing={10}
+        height={"100vh"}
+        // alignItems="stretch"
       >
         {/* Logo Column */}
-        <Grid sx={{ xs: 12, md: 6 }} textAlign="center">
+        <Grid size={{ xs: 12, md: 5 }} textAlign="center">
           <Box
             component="img"
             src={logo}
@@ -29,7 +33,7 @@ export const AuthLayout = () => {
         </Grid>
 
         {/* Form Outlet Column */}
-        <Grid sx={{ xs: 12, md: 6 }}>
+        <Grid sx={{ xs: 12, md: 9 }}>
           <Outlet />
         </Grid>
       </Grid>
