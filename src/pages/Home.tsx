@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { Typography, Button, Grid } from "@mui/material";
-import { BASE_URL, getToken, removeToken } from "../utils/auth";
+import { redirect } from "react-router-dom";
+import { Button, Grid } from "@mui/material";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import { removeToken } from "../utils/helper";
 import { PostCards } from "../components/PostCards";
 import { CreateEditPostModal } from "./CreateEditPostModal";
-import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { SkeletonCard } from "../components/Skeleton";
 import { AuthContext } from "../context/AuthContext";
-import { redirect } from "react-router-dom";
 import { getAllPosts } from "../services/postService";
 
 export const Home = () => {
@@ -49,15 +49,6 @@ export const Home = () => {
         setReloadPosts={setReloadPosts}
       />
       <Grid container spacing={2}>
-        {/* <Grid size={{ xs: 6, md: 8 }}>
-          <Typography
-            variant="h4"
-            // gutterBottom
-            sx={{ fontSize: { xs: "12px", md: "20px" } }}
-          >
-            Latest Posts
-          </Typography>
-        </Grid> */}
         <Grid
           size={{ xs: 12, md: 12 }}
           textAlign={"end"}

@@ -1,6 +1,9 @@
-import { getToken } from "../utils/auth";
+import { getToken } from "../utils/helper";
 
-export const fetchData = (URL: string, method: string, body?) => {
+export const BASE_URL =
+  import.meta.env.API_BASE_URL ?? "http://localhost:4000/api";
+
+export const fetchData = (URL: string, method: string, body?: any) => {
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${getToken()}`,

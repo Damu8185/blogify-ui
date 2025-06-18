@@ -12,7 +12,7 @@ import {
   Avatar,
   Stack,
 } from "@mui/material";
-import { removeToken } from "../utils/auth";
+import { removeToken } from "../utils/helper";
 import { AuthContext } from "../context/AuthContext";
 import { profileName } from "../utils/helper";
 import { getAllUsers } from "../services/authService";

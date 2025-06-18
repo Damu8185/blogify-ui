@@ -8,8 +8,8 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { PostData } from "./PostCards";
-import { deletePost } from "../utils/auth";
 import { AuthContext } from "../context/AuthContext";
+import { deletePost } from "../services/postService";
 
 type postMenuProps = {
   postData: PostData;
@@ -39,7 +39,7 @@ export const PostsMenu = ({
     try {
       const response = await deletePost(postData._id);
 
-      if (response.ok) {
+      if (response?.ok) {
         setSucessToast("Post deleted successfully");
         handleClose();
         setReloadPosts(true);

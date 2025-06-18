@@ -1,3 +1,4 @@
+import { useContext, useEffect, useState } from "react";
 import { Button, TextField } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -5,10 +6,10 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { createPost, removeToken, updatePost } from "../utils/auth";
+import { removeToken } from "../utils/helper";
 import { initialStatePost, PostData } from "../components/PostCards";
 import { AuthContext } from "../context/AuthContext";
-import { useContext, useEffect, useState } from "react";
+import { createPost, updatePost } from "../services/postService";
 
 type modalTypes = {
   isEdit?: boolean;
@@ -75,18 +76,15 @@ export const CreateEditPostModal = ({
 
     if (isEdit) {
       try {
-        const response = await updatePost(
-          form._id,
-          form.description,
-          form.post_title
-        );
-        const updatedPost = await response.json();
+        const formData = {
+          _id: form._id,
+          description: form.description,
+          post_title: form.post_title,
+        };
+        const response = await updatePost(formData);
         if (!response.ok && response.status === 401) {
           removeToken();
           setErrorToast("Session expired");
-        }
-        if (!response.ok) {
-          throw new Error(updatedPost.message || "Post updation failed");
         } else {
           handleClose();
           setSucessToast("Post updated successfully");
@@ -98,14 +96,16 @@ export const CreateEditPostModal = ({
       }
     } else {
       try {
-        const response = await createPost(form.post_title, form.description);
-        const createdPost = await response.json();
+        const formData = {
+          post_title: form.post_title,
+          description: form.description,
+        };
+        const response = await createPost(formData);
+        console.log("response", response);
+
         if (!response.ok && response.status === 401) {
           removeToken();
           setErrorToast("Session expired");
-        }
-        if (!response.ok) {
-          throw new Error(createdPost.message || "Post publishtion failed");
         } else {
           handleClose();
           setSucessToast("Post published successfully");

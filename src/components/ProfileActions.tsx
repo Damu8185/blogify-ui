@@ -7,7 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import Logout from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
-import { getUser, removeToken } from "../utils/auth";
+import { getUser, removeToken } from "../utils/helper";
 
 export const ProfileActions = () => {
   const navigate = useNavigate();

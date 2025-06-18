@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -5,20 +6,12 @@ import {
   CardHeader,
   Avatar,
   Grid,
-  Tooltip,
 } from "@mui/material";
 import { PostsMenu } from "./PostActions";
-import { useContext, useState } from "react";
 import { CreateEditPostModal } from "../pages/CreateEditPostModal";
-import { AuthContext } from "../context/AuthContext";
 import { profileName } from "../utils/helper";
-import {
-  redirect,
-  Link as RouterLink,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
-import { getUser } from "../utils/auth";
+import { useNavigate, useParams } from "react-router-dom";
+import { getUser } from "../utils/helper";
 
 export interface PostData {
   _id: string;

@@ -1,14 +1,12 @@
-import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Card,
   CardContent,
   Typography,
-  Button,
   Grid,
   Container,
 } from "@mui/material";
-import { redirect, useNavigate } from "react-router-dom";
 
 const blogPosts = [
   {

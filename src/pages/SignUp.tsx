@@ -21,7 +21,6 @@ import {
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { BASE_URL } from "../utils/auth";
 import { signUp } from "../services/authService";
 import { signUpFormData } from "../types/auth";
 

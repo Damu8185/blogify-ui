@@ -1,6 +1,6 @@
 import { fetchData } from "../api";
 import { GET_ALL_USERS, LOGIN, PROFILE, SIGN_UP } from "../api/auth";
-import { setToken, setUser } from "../utils/auth";
+import { setToken, setUser } from "../utils/helper";
 import { signInFormData, signUpFormData } from "../types/auth";
 
 export const signUp = async (form: signUpFormData) => {
@@ -32,7 +32,7 @@ export const login = async (form: signInFormData) => {
   }
 };
 
-export const profile = async (userId) => {
+export const profile = async (userId: string) => {
   try {
     const response = await fetchData(PROFILE(userId), "GET");
     const userData = await response.json();

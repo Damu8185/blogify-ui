@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
 import { AppNavbar } from "./components/Navbar";
 import { Container, Box } from "@mui/material";
-import ToastContextProvider, { AuthContext } from "./context/AuthContext";
+import { AuthContext } from "./context/AuthContext";
 import { useContext, useEffect } from "react";
-import { getUser } from "./utils/auth";
+import { getUser } from "./utils/helper";
 
 export const App = () => {
   const { setUserId } = useContext(AuthContext);
@@ -19,11 +19,9 @@ export const App = () => {
 
       {/* Main content area */}
       <Container maxWidth="md">
-        <ToastContextProvider>
-          <Box sx={{ mt: 4 }}>
-            <Outlet />
-          </Box>
-        </ToastContextProvider>
+        <Box sx={{ mt: 4 }}>
+          <Outlet />
+        </Box>
       </Container>
     </>
   );

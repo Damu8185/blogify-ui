@@ -17,18 +17,12 @@ import {
   Login as LoginIcon,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL, setToken, setUser } from "../utils/auth";
 import { AuthContext } from "../context/AuthContext";
 import { login } from "../services/authService";
 import { signInFormData } from "../types/auth";
 
-// interface FormData {
-//   email_id: string;
-//   password: string;
-// }
-
 export const SignIn = () => {
-  const { setSucessToast, setErrorToast, setUserId } = useContext(AuthContext);
+  const { setSucessToast, setErrorToast } = useContext(AuthContext);
   const navigate = useNavigate();
   const [form, setForm] = useState({ email_id: "", password: "" });
   const [errors, setErrors] = useState<Partial<signInFormData>>({});
@@ -63,7 +57,11 @@ export const SignIn = () => {
 
     try {
       const success = await login(form);
+      console.log("success", success);
+
       if (success) {
+        console.log("success logged in");
+
         setSucessToast("Login successfully");
         navigate("/home");
       } else {

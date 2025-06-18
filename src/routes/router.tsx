@@ -4,7 +4,7 @@ import { SignIn } from "../pages/SignIn";
 import { SignUp } from "../pages/SignUp";
 import { Profile } from "../pages/Profile";
 import { UserList } from "../pages/UserList";
-import { getToken } from "../utils/auth";
+import { getToken } from "../utils/helper";
 import { LandingOrFeed } from "../pages/LandingPage";
 import { PostDetails } from "../pages/PostDetails";
 import { AuthLayout } from "../components/AuthLayout";
@@ -47,14 +47,6 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <LandingOrFeed />,
-        // loader: () => {
-        //   const token = getToken();
-        //   if (!token) {
-        //     // Redirect to home
-        //     return redirect("/sign-in");
-        //   }
-        //   return null;
-        // },
       },
       {
         path: "profile/:user_id",

@@ -1,13 +1,6 @@
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  IconButton,
-  Box,
-} from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { getToken } from "../utils/auth";
+import { AppBar, Toolbar, Button, IconButton, Box } from "@mui/material";
+import { getToken } from "../utils/helper";
 import PeopleIcon from "@mui/icons-material/People";
 import { ProfileActions } from "./ProfileActions";
 import logo from "../assets/navbar-logo.png";
@@ -31,13 +24,6 @@ export const AppNavbar = () => {
           style={{ cursor: "pointer" }}
           onClick={() => navigate("/home")}
         />
-        {/* <Typography
-          variant="h6"
-          sx={{ flexGrow: 1, cursor: "pointer" }}
-          onClick={() => navigate("/home")}
-        >
-          MiniBlog
-        </Typography> */}
         {token ? (
           <Box display={"flex"}>
             <IconButton

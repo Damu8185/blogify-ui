@@ -1,7 +1,14 @@
 import { fetchData } from "../api";
-import { GET_ALL_POSTS, getPostById, getUserPostsById } from "../api/posts";
+import {
+  CREATE_POST,
+  deletePostById,
+  GET_ALL_POSTS,
+  getPostById,
+  getUserPostsById,
+  updatePostById,
+} from "../api/posts";
 
-export const fetchPostById = async (post_id: number) => {
+export const fetchPostById = async (post_id: string) => {
   try {
     const response = await fetchData(getPostById(post_id), "GET");
     const posts = await response.json();
@@ -28,7 +35,7 @@ export const getAllPosts = async () => {
   }
 };
 
-export const getUserPosts = async (user_id: number) => {
+export const getUserPosts = async (user_id: string) => {
   try {
     const response = await fetchData(getUserPostsById(user_id), "GET");
     const posts = await response.json();
@@ -40,4 +47,39 @@ export const getUserPosts = async (user_id: number) => {
     console.error("error", error);
     return false;
   }
+};
+
+export const createPost = async (form) => {
+  try {
+    const response = await fetchData(CREATE_POST, "POST", form);
+    const createdPostData = await response.json();
+
+    if (response.ok) {
+      return createdPostData;
+    }
+    return response;
+  } catch (error) {
+    console.error("error", error);
+    return error;
+  }
+};
+
+export const updatePost = async (form) => {
+  try {
+    const response = await fetchData(updatePostById(form._id), "PATCH", form);
+    const updatedPostData = await response.json();
+
+    if (response.ok) {
+      return updatedPostData;
+    }
+    return response;
+  } catch (error) {
+    console.error("error", error);
+    return error;
+  }
+};
+
+export const deletePost = async (post_id: string) => {
+  const response = await fetchData(deletePostById(post_id), "DELETE");
+  return response;
 };

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Avatar, Box, Container, Tab, Tabs, Typography } from "@mui/material";
-import { BASE_URL, getToken, getUser, removeToken } from "../utils/auth";
+import { removeToken } from "../utils/helper";
 import { PostCards } from "../components/PostCards";
 import { SkeletonCard } from "../components/Skeleton";
 import { AuthContext } from "../context/AuthContext";
@@ -37,15 +37,17 @@ export const Profile = () => {
     const fetchData = async () => {
       setUserLoader(true);
       try {
-        const response = await profile(user_id);
-        if (!response.ok && response.status === 401) {
-          removeToken();
-          setErrorToast("Session expired");
+        if (user_id) {
+          const response = await profile(user_id);
+          if (!response.ok && response.status === 401) {
+            removeToken();
+            setErrorToast("Session expired");
+          }
+          setTimeout(() => {
+            setUserLoader(false);
+            setUser(response);
+          }, 1000);
         }
-        setTimeout(() => {
-          setUserLoader(false);
-          setUser(response);
-        }, 1000);
       } catch (error) {
         setUserLoader(false);
         console.error("Error fetching data:", error);
@@ -60,17 +62,19 @@ export const Profile = () => {
     const fetchUserPostData = async () => {
       setLoadingPosts(true);
       try {
-        const response = await getUserPosts(user_id);
+        if (user_id) {
+          const response = await getUserPosts(user_id);
 
-        if (!response.ok && response.status === 401) {
-          removeToken();
-          setErrorToast("Session expired");
+          if (!response.ok && response.status === 401) {
+            removeToken();
+            setErrorToast("Session expired");
+          }
+          setTimeout(() => {
+            setPosts(response);
+            setReloadPosts(false);
+            setLoadingPosts(false);
+          }, 1000);
         }
-        setTimeout(() => {
-          setPosts(response);
-          setReloadPosts(false);
-          setLoadingPosts(false);
-        }, 1000);
       } catch (error) {
         setLoadingPosts(false);
         console.error("Error fetching data:", error);
