@@ -57,11 +57,8 @@ export const SignIn = () => {
 
     try {
       const success = await login(form);
-      console.log("success", success);
 
       if (success) {
-        console.log("success logged in");
-
         setSucessToast("Login successfully");
         navigate("/home");
       } else {

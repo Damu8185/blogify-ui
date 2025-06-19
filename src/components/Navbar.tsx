@@ -1,5 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { AppBar, Toolbar, Button, IconButton, Box } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  IconButton,
+  Box,
+  Tooltip,
+} from "@mui/material";
 import { getToken } from "../utils/helper";
 import PeopleIcon from "@mui/icons-material/People";
 import { ProfileActions } from "./ProfileActions";
@@ -26,13 +33,15 @@ export const AppNavbar = () => {
         />
         {token ? (
           <Box display={"flex"}>
-            <IconButton
-              color="inherit"
-              onClick={() => navigate("/home/user-list")}
-              sx={{ mr: 2 }}
-            >
-              <PeopleIcon fontSize="medium" />
-            </IconButton>
+            <Tooltip title="Users">
+              <IconButton
+                color="inherit"
+                onClick={() => navigate("/home/user-list")}
+                sx={{ mr: 2 }}
+              >
+                <PeopleIcon fontSize="medium" />
+              </IconButton>
+            </Tooltip>
             <ProfileActions />
           </Box>
         ) : (

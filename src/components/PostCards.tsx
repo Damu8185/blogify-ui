@@ -6,6 +6,7 @@ import {
   CardHeader,
   Avatar,
   Grid,
+  Divider,
 } from "@mui/material";
 import { PostsMenu } from "./PostActions";
 import { CreateEditPostModal } from "../pages/CreateEditPostModal";
@@ -44,13 +45,11 @@ export const initialStatePost = {
 };
 
 export const PostCards = ({ posts, setReloadPosts }: postMenuProps) => {
-  console.log("posts", posts);
+  const userId = getUser();
+  const { user_id } = useParams();
   const navigate = useNavigate();
   const [showEditPostDialog, setShowEditPostDialog] = useState(false);
   const [selectedPost, setSelectedPost] = useState<PostData>(initialStatePost);
-  const userId = getUser();
-  const { user_id } = useParams();
-  console.log("posts", posts);
 
   return (
     <>
@@ -113,6 +112,7 @@ export const PostCards = ({ posts, setReloadPosts }: postMenuProps) => {
                   }
                   subheader={new Date(post.created_at).toDateString()}
                 />
+                <Divider variant="middle" sx={{ mb: 2 }} />
                 <CardContent sx={{ paddingTop: "0" }}>
                   {/* <Tooltip title={post.post_title}> */}
                   <Typography

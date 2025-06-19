@@ -8,6 +8,7 @@ import Logout from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
 import { getUser, removeToken } from "../utils/helper";
+import { Tooltip } from "@mui/material";
 
 export const ProfileActions = () => {
   const navigate = useNavigate();
@@ -27,9 +28,11 @@ export const ProfileActions = () => {
   };
   return (
     <>
-      <IconButton color="inherit" onClick={handleClick}>
-        <AccountCircleIcon fontSize="medium" />
-      </IconButton>
+      <Tooltip title="Profile">
+        <IconButton color="inherit" onClick={handleClick}>
+          <AccountCircleIcon fontSize="medium" />
+        </IconButton>
+      </Tooltip>
       <Menu
         anchorEl={anchorEl}
         id="account-menu"

@@ -8,11 +8,18 @@ import {
   updatePostById,
 } from "../api/posts";
 
+interface CreateReqBodyType {
+  post_title: string;
+  description: string;
+}
+interface UpdateReqBodyType extends CreateReqBodyType {
+  _id: string;
+}
+
 export const fetchPostById = async (post_id: string) => {
   try {
     const response = await fetchData(getPostById(post_id), "GET");
     const posts = await response.json();
-    console.log("posts", posts);
 
     return posts;
   } catch (error) {
@@ -49,7 +56,7 @@ export const getUserPosts = async (user_id: string) => {
   }
 };
 
-export const createPost = async (form) => {
+export const createPost = async (form: CreateReqBodyType) => {
   try {
     const response = await fetchData(CREATE_POST, "POST", form);
     const createdPostData = await response.json();
@@ -64,7 +71,7 @@ export const createPost = async (form) => {
   }
 };
 
-export const updatePost = async (form) => {
+export const updatePost = async (form: UpdateReqBodyType) => {
   try {
     const response = await fetchData(updatePostById(form._id), "PATCH", form);
     const updatedPostData = await response.json();

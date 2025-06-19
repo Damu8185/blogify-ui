@@ -1,31 +1,52 @@
 import { Outlet } from "react-router-dom";
 import logo from "../assets/navbar-logo.png";
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Container } from "@mui/material";
 
 export const AuthLayout = () => {
   return (
-    <Container sx={{ height: "100vh", alignItems: "center" }}>
-      <Grid
-        alignItems="center"
-        justifyContent="center"
-        container
-        spacing={10}
-        height={"100vh"}
+    <Container
+      sx={{
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" }, // column on mobile, row on ≥md
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: { xs: 2, md: 10 },
+          width: "100%",
+        }}
       >
-        {/* Logo Column */}
-        <Grid size={{ xs: 12, md: 5 }} textAlign="center">
+        {/* Logo */}
+        <Box
+          sx={{
+            width: { xs: "60%", md: "40%" }, // roughly matches 5/12 of grid on md
+            textAlign: "center",
+          }}
+        >
           <Box
             component="img"
             src={logo}
-            sx={{ width: { xs: "60%", md: "80%" } }}
+            alt="Tales logo"
+            sx={{ width: "100%", maxWidth: 400 }}
           />
-        </Grid>
+        </Box>
 
-        {/* Form Outlet Column */}
-        <Grid sx={{ xs: 12, md: 9 }}>
+        {/* Form / Outlet */}
+        <Box
+          sx={{
+            flexGrow: 1,
+            maxWidth: { xs: "100%", md: 480 }, // roughly 9/12 of grid on md
+            width: "100%",
+          }}
+        >
           <Outlet />
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </Container>
   );
 };

@@ -35,7 +35,6 @@ export const CreateEditPostModal = ({
     post_title: "",
   });
   const [errors, setErrors] = useState({ description: "", post_title: "" });
-  console.log("postData", postData);
 
   useEffect(() => {
     if (postData && isEdit) {
@@ -101,7 +100,6 @@ export const CreateEditPostModal = ({
           description: form.description,
         };
         const response = await createPost(formData);
-        console.log("response", response);
 
         if (!response.ok && response.status === 401) {
           removeToken();
